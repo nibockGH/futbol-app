@@ -52,6 +52,9 @@ $conn->close();
     <title>Buscar Rival y Crear Equipos</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
+<header class="bg-gray-50 w-full text-center">
+    <h1 class="text-2xl font-bold bg-gray-50 mb-4">PartidoYa</h1>
+</header>
 <body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center">
     <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-2xl">
         <h2 class="text-3xl font-bold mb-6 text-center">Buscar Rival y Crear Equipos</h2>
