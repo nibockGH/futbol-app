@@ -56,7 +56,6 @@ $invitacion_codigo = bin2hex(random_bytes(4)); // Genera un código de invitaci�
 
 $conn->close();
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -90,7 +89,9 @@ $conn->close();
 </header>
 
 <div class="w-full max-w-4xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+    <!-- Contenedor para grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Sección Mi Equipo -->
         <div>
             <h2 class="text-2xl font-bold mb-4">Mi Equipo</h2>
             <div class="rounded-lg border bg-white text-black shadow-sm">
@@ -132,66 +133,35 @@ $conn->close();
                     </div>
                 </div>
             </div>
-
-            <div class="rounded-lg border bg-white text-black shadow-sm mt-6">
+        </div>
+        
+        <!-- Sección Datos Personales -->
+        <div class="bg-white rounded-lg">
+            <h2 class="text-2xl font-bold py-2 px-4 mb-4">Datos Personales</h2>
+            <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
                 <div class="flex flex-col space-y-1.5 p-6">
-                    <h3 class="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">Detalles de Contacto</h3>
+                    <h3 class="whitespace-nowrap text-2xl font-semibold leading-none tracking-tight">
+                        Información de Perfil
+                    </h3>
                 </div>
-                <div class="p-6">
-                    <div class="grid gap-4">
-                        <div class="flex items-center space-x-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-muted-foreground">
-                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2z"></path>
-                            </svg>
-                            <div>
-                                <div class="text-sm font-medium">Teléfono</div>
-                                <div class="text-muted-foreground text-sm"><?php echo $usuario['telefono']; ?></div>
-                            </div>
-                        </div>
-                        <div class="flex items-center space-x-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5 text-muted-foreground">
-                                <path d="M3 5h18M8 9h8m-6 4h4m-9 4h14M5 19h14"></path>
-                            </svg>
-                            <div>
-                                <div class="text-sm font-medium">Correo Electrónico</div>
-                                <div class="text-muted-foreground text-sm"><?php echo $usuario['email']; ?></div>
-                            </div>
-                        </div>
+                <div class="p-6 space-y-4">
+                    <div class="space-y-2">
+                        <label for="name" class="text-sm font-medium leading-none">Nombre</label>
+                        <input id="name" class="flex h-10 w-full rounded-md border px-3 py-2 text-sm" value="<?php echo htmlspecialchars($users['name']); ?>" readonly>
+                    </div>
+                    <div class="space-y-2">
+                        <label for="email" class="text-sm font-medium leading-none">Correo Electrónico</label>
+                        <input id="email" type="email" class="flex h-10 w-full rounded-md border px-3 py-2 text-sm" value="<?php echo htmlspecialchars($users['email']); ?>" readonly>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Crear Equipo -->
-        <div class="bg-white rounded-lg">
-            <h2 class="text-2xl font-bold py-2 px-4 mb-4">Crear Equipo</h2>
-            <form action="" method="post" class="rounded-lg border bg-card text-card-foreground shadow-sm p-6 space-y-4">
-                <div class="space-y-2">
-                    <label for="name" class="text-sm font-medium leading-none">Nombre del Equipo</label>
-                    <input id="name" name="nombre" class="flex h-10 w-full rounded-md border px-3 py-2 text-sm" placeholder="Ingrese el nombre del equipo" required>
-                </div>
-                <div class="space-y-2">
-                    <label for="email" class="text-sm font-medium leading-none">Número de Participantes</label>
-                    <input id="email" type="number" name="participantes" class="flex h-10 w-full rounded-md border px-3 py-2 text-sm" placeholder="Ingrese el número de participantes" required>
-                </div>
-                <div class="space-y-2">
-                    <label for="phone" class="text-sm font-medium leading-none">Tipo de Cancha</label>
-                    <select id="phone" name="cancha" class="flex h-10 w-full rounded-md border px-3 py-2 text-sm">
-                        <option value="5">Cancha 5</option>
-                        <option value="7">Cancha 7</option>
-                        <option value="11">Cancha 11</option>
-                    </select>
-                </div>
-                <div class="flex justify-end">
-                    <button type="submit" name="crear_equipo" class="inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Crear Equipo</button>
-                </div>
-            </form>
-            <!-- Mostrar mensaje de éxito o error -->
-            <?php if ($mensaje) : ?>
-                <div class="mt-4 p-3 bg-blue-100 text-blue-800 rounded"><?php echo $mensaje; ?></div>
-            <?php endif; ?>
-        </div>
     </div>
+    
+    <!-- Mostrar mensaje de éxito o error -->
+    <?php if ($mensaje) : ?>
+        <div class="mt-4 p-3 bg-blue-100 text-blue-800 rounded"><?php echo $mensaje; ?></div>
+    <?php endif; ?>
 </div>
 </body>
 </html>

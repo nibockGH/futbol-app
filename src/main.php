@@ -149,12 +149,12 @@ $error = "";
             <a href="#" class="text-sm text-white font-medium hover:underline underline-offset-4">Partidos</a>
             <a href="crearequipo.php" class="text-sm text-white font-medium hover:underline underline-offset-4">Equipos</a>
             <a href="#" class="text-sm text-white font-medium hover:underline underline-offset-4">Contacto</a>
-            </div>
+            </div>  
             <!-- Dropdown "Mi cuenta" -->
             <div class="dropdown">
-                <a href="#" class="text-sm text-white font-medium hover:underline underline-offset-4 dropbtn">Mi cuenta</a>
+                <a href="micuenta.php" class="text-sm text-white font-medium hover:underline underline-offset-4 dropbtn">Mi cuenta</a>
                 <div class="dropdown-content">
-                    <a href="#">Configuración</a>
+                    <a href="micuenta.php">Configuración</a>
                     <a href="logout.php">Cerrar sesión</a>
                 </div>
             </div>
