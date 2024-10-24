@@ -3,13 +3,13 @@
 session_start();
 
 // Verificar si el usuario ha iniciado sesión y tiene un ID en la sesión
-if (isset($_SESSION['user_id'])) {
-    $usuario_id = $_SESSION['user_id']; // Obtener el ID del usuario desde la sesión
-} else {
+if (!isset($_SESSION['user_id'])) {
     // Si no hay usuario en la sesión, redirigir a la página de inicio de sesión
     header("Location: login.php");
     exit();
 }
+
+$usuario_id = $_SESSION['user_id']; // Obtener el ID del usuario desde la sesión
 
 // Datos de conexión a la base de datos
 $servername = "localhost";
@@ -30,9 +30,9 @@ $mensaje = ""; // Variable para almacenar el mensaje
 // Verificar si se ha enviado el formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtener los valores del formulario
-    $nombre = $_POST['nombre'];
-    $participantes = $_POST['participantes'];
-    $cancha = $_POST['cancha'];
+    $nombre = $conn->real_escape_string($_POST['nombre']);
+    $participantes = intval($_POST['participantes']);
+    $cancha = intval($_POST['cancha']);
 
     // Verificar si el usuario ya tiene un equipo
     $sql_verificar = "SELECT id FROM equipos WHERE usuario_id = '$usuario_id'";
@@ -48,18 +48,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         if ($conn->query($sql) === TRUE) {
             $mensaje = "Equipo guardado exitosamente.";
-            header("Location: micuenta.php"); // Redirigir después de guardar
-            exit(); // Detener la ejecución después de la redirección
         } else {
             $mensaje = "Error: " . $sql . "<br>" . $conn->error;
         }
     }
 }
 
-// Obtener todos los equipos de la base de datos para mostrarlos (si es necesario)
-$sql_equipos = "SELECT nombre, numero_participante, tipo_cancha FROM equipos";
-$result_equipos = $conn->query($sql_equipos);
 
+// Cerrar la conexión
 $conn->close();
 ?>
 
@@ -166,8 +162,104 @@ $conn->close();
 </style>
 </head>
 <body class="flex bg-zinc-300 flex-col min-h-screen">
-<header class="bg-black text-primary-foreground px-4 lg:px-6 h-14 flex items-center">
-        <a class="flex items-center justify-center" href="main.php">
+<style>
+        body {
+            background-color: white; /* color zinc-300 de Tailwind */
+        }
+        header {
+            background-color: #000000; /* color negro */
+        }
+        .bg-black {
+            background-color: #000000; /* color negro */
+        }
+        .text-primary-foreground {
+            color: #FFFFFF; /* texto blanco */
+        }
+        #boton {
+            overflow: hidden; /* Evita que el texto agrandado se desborde del botón */
+            transition: background-color 0.3s ease;
+        }
+        #boton:hover {
+            background-color: #121111;
+        }
+        /* Estilos para el menú desplegable */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #a1a1a1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            opacity: 0;
+            transform: scale(0.95); /* Escalado inicial */
+            transition: transform 0.3s ease, opacity 0.3s ease; /* Transiciones */
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            transition: transform 0.3s ease; /* Transición para agrandar texto */
+        }
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+            transform: scale(1.05); /* Agranda el texto al pasar el cursor */
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: scale(1); /* Vuelve al tamaño original */
+        }
+        .dropdown:hover .dropbtn {
+            background-color: #121111;
+            text-decoration: underline;
+        }
+        /* Estilos para la sección de contacto */
+        .contact-section {
+            margin-top: 100px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .contact-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .contact-form button {
+            background-color: #000000;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .contact-form button:hover {
+            background-color: #333;
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"> <!-- Tailwind CSS CDN -->
+</head>
+<body class="flex bg-zinc-300 flex-col min-h-screen">
+    <header class="bg-black text-primary-foreground px-4 lg:px-6 h-14 flex items-center">
+        <a class="flex items-center justify-center" href="../main.php">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -186,16 +278,16 @@ $conn->close();
         </a>
         <nav class="ml-auto pr-10 mr-10 flex gap-4 sm:gap-6">
             <div class="space-x-3.5">
-            <a href="main.php" class="text-sm text-white font-medium hover:underline underline-offset-4">Inicio</a>
-            <a href="#" class="text-sm text-white font-medium hover:underline underline-offset-4">Partidos</a>
-            <a href="crearequipo.php" class="text-sm text-white font-medium hover:underline underline-offset-4">Equipos</a>
-            </div>
+            <a href="../main.php" class="text-sm text-white font-medium hover:underline underline-offset-4">Inicio</a>
+            <a href="BuscarRival.php" class="text-sm text-white font-medium hover:underline underline-offset-4">Partidos</a>
+            <a href="CreacionEquipos.php" class="text-sm text-white font-medium hover:underline underline-offset-4">Equipos</a>
+            </div>  
             <!-- Dropdown "Mi cuenta" -->
             <div class="dropdown">
-                <a href="#" class="text-sm text-white font-medium hover:underline underline-offset-4 dropbtn">Mi cuenta</a>
+                <a href="../Account/micuenta.php" class="text-sm text-white font-medium hover:underline underline-offset-4 dropbtn">Mi cuenta</a>
                 <div class="dropdown-content">
-                    <a href="#">Configuración</a>
-                    <a href="logout.php">Cerrar sesión</a>
+                    <a href="../Account/micuenta.php">Configuración</a>
+                    <a href="../Scripts/CerrarSesion.php">Cerrar sesión</a>
                 </div>
             </div>
         </nav>
@@ -212,7 +304,7 @@ $conn->close();
                 </div>
             <?php endif; ?>
 
-            <form action="crearequipo.php" method="POST">
+            <form action="CreacionEquipos.php" method="POST">
                 <div class="mb-4">
                     <label for="nombre" class="block text-gray-700 font-bold mb-2">Nombre del Equipo:</label>
                     <input type="text" id="nombre" name="nombre" class="border border-gray-300 rounded-lg w-full p-2" required>
@@ -232,36 +324,5 @@ $conn->close();
                 <button type="submit" class="bg-black text-white w-full py-2 rounded-lg hover:bg-gray-800">Guardar Equipo</button>
             </form>
         </div>
-
-                <!-- Sección Buscar Rivales -->
-
-                <div class="w-full max-w-lg bg-white p-8 rounded-lg shadow-md">
-    <h2 class="text-2xl font-bold mb-6 text-center">Buscar Rivales</h2>
-
-    <?php if ($result_equipos->num_rows > 0): ?>
-        <table class="min-w-full bg-white mb-6">
-            <thead>
-                <tr>
-                    <th class="py-2 px-4 bg-gray-200 font-bold uppercase text-gray-700 text-sm">Nombre del Equipo</th>
-                    <th class="py-2 px-4 bg-gray-200 font-bold uppercase text-gray-700 text-sm">Participantes</th>
-                    <th class="py-2 px-4 bg-gray-200 font-bold uppercase text-gray-700 text-sm">Tipo de Cancha</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php while($row = $result_equipos->fetch_assoc()): ?>
-                    <tr>
-                        <td class="py-2 px-4 border-b border-gray-200"><?php echo $row['nombre']; ?></td>
-                        <td class="py-2 px-4 border-b border-gray-200"><?php echo $row['numero_participante']; ?></td>
-                        <td class="py-2 px-4 border-b border-gray-200"><?php echo $row['tipo_cancha']; ?></td>
-                        <td class="py-2 px-4 border-b border-gray-200 text-center">
-                        </td>
-                    </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
-    <?php else: ?>
-        <p class="text-gray-700 text-center">No se encontraron equipos.</p>
-    <?php endif; ?>
-</div>
 </body>
 </html>

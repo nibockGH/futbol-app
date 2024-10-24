@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['user_id'] = $row['id'];
                 $_SESSION['user_name'] = $row['name'];
                 // Redireccionar al usuario a la página de buscar rivales
-                header("Location: main.php");
+                header("Location: ../main.php");
                 exit();
             } else {
                 echo "Contraseña incorrecta";

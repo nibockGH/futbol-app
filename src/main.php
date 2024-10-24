@@ -1,7 +1,7 @@
 <?php
 session_start();
 if(!isset($_SESSION['user_id'])){
-    header('Location: login.php');
+    header('Location: Account/login.php');
 }
 
 // Datos de conexión a la base de datos
@@ -29,7 +29,9 @@ $error = "";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Encontrar Partido</title>
-    <style>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"> <!-- Tailwind CSS CDN -->
+</head>
+<style>
         body {
             background-color: white; /* color zinc-300 de Tailwind */
         }
@@ -146,20 +148,21 @@ $error = "";
         <nav class="ml-auto pr-10 mr-10 flex gap-4 sm:gap-6">
             <div class="space-x-3.5">
             <a href="main.php" class="text-sm text-white font-medium hover:underline underline-offset-4">Inicio</a>
-            <a href="#" class="text-sm text-white font-medium hover:underline underline-offset-4">Partidos</a>
-            <a href="crearequipo.php" class="text-sm text-white font-medium hover:underline underline-offset-4">Equipos</a>
+            <a href="Equipos/BuscarRival.php" class="text-sm text-white font-medium hover:underline underline-offset-4">Partidos</a>
+            <a href="Equipos/CreacionEquipos.php" class="text-sm text-white font-medium hover:underline underline-offset-4">Equipos</a>
             </div>  
             <!-- Dropdown "Mi cuenta" -->
             <div class="dropdown">
                 <a href="micuenta.php" class="text-sm text-white font-medium hover:underline underline-offset-4 dropbtn">Mi cuenta</a>
                 <div class="dropdown-content">
-                    <a href="micuenta.php">Configuración</a>
-                    <a href="logout.php">Cerrar sesión</a>
+                    <a href="Account/micuenta.php">Configuración</a>
+                    <a href="Scripts/CerrarSesion.php">Cerrar sesión</a>
                 </div>
             </div>
         </nav>
     </header>
 
+<body>
     <main class="flex-1 bg-background">
         <section class="w-full pt-12 md:pt-24 lg:pt-32 border-y">
             <div class="px-4 md:px-6 space-y-10 xl:space-y-16">
@@ -171,7 +174,7 @@ $error = "";
                         </h1>
                         <div class="mt-6">
                             <a
-                                href="buscarrival.php"
+                                href="Equipos/BuscarRival.php"
                                 id="boton"
                                 class="inline-flex h-16 w-56 mt-8 items-center justify-center rounded-lg bg-black text-white px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50">
                                 Encontrar!
@@ -187,7 +190,7 @@ $error = "";
                     </p>
                     <div class="mt-6">
                             <a
-                                href="crearequipo.php"
+                                href="Equipos/CreacionEquipos.php"
                                 id="boton"
                                 class="inline-flex h-16 w-56 mt-8 items-center justify-center rounded-lg bg-black text-white px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                             >
@@ -197,7 +200,6 @@ $error = "";
             </div>
         </section>
     </main>
-
     <footer class="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center justify-between px-4 md:px-6 border-t bg-muted text-muted-foreground">
     <ul class="flex justify-start">
         <li>
@@ -231,7 +233,5 @@ $error = "";
     </ul>
     <p class="text-xs text-center w-full sm:w-auto">© 2024 Encontrar Partido. Todos los derechos reservados.</p>
 </footer>
-
-
 </body>
 </html>

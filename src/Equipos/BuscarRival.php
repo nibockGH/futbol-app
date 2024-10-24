@@ -51,10 +51,10 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Equipo y Buscar Rivales</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-    /* Tu código de estilos */
-    body {
-            background-color: #989da6; /* color zinc-300 de Tailwind */
+</head>
+<style>
+        body {
+            background-color: white; /* color zinc-300 de Tailwind */
         }
         header {
             background-color: #000000; /* color negro */
@@ -144,11 +144,12 @@ $conn->close();
         .contact-form button:hover {
             background-color: #333;
         }
-</style>
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet"> <!-- Tailwind CSS CDN -->
 </head>
 <body class="flex bg-zinc-300 flex-col min-h-screen">
-<header class="bg-black text-primary-foreground px-4 lg:px-6 h-14 flex items-center">
-        <a class="flex items-center justify-center" href="main.php">
+    <header class="bg-black text-primary-foreground px-4 lg:px-6 h-14 flex items-center">
+        <a class="flex items-center justify-center" href="../main.php">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -167,20 +168,21 @@ $conn->close();
         </a>
         <nav class="ml-auto pr-10 mr-10 flex gap-4 sm:gap-6">
             <div class="space-x-3.5">
-            <a href="main.php" class="text-sm text-white font-medium hover:underline underline-offset-4">Inicio</a>
-            <a href="#" class="text-sm text-white font-medium hover:underline underline-offset-4">Partidos</a>
-            <a href="crearequipo.php" class="text-sm text-white font-medium hover:underline underline-offset-4">Equipos</a>
-            </div>
+            <a href="../main.php" class="text-sm text-white font-medium hover:underline underline-offset-4">Inicio</a>
+            <a href="BuscarRival.php" class="text-sm text-white font-medium hover:underline underline-offset-4">Partidos</a>
+            <a href="CreacionEquipos.php" class="text-sm text-white font-medium hover:underline underline-offset-4">Equipos</a>
+            </div>  
             <!-- Dropdown "Mi cuenta" -->
             <div class="dropdown">
-                <a href="#" class="text-sm text-white font-medium hover:underline underline-offset-4 dropbtn">Mi cuenta</a>
+                <a href="../Account/micuenta.php" class="text-sm text-white font-medium hover:underline underline-offset-4 dropbtn">Mi cuenta</a>
                 <div class="dropdown-content">
-                    <a href="#">Configuración</a>
-                    <a href="logout.php">Cerrar sesión</a>
+                    <a href="../Account/micuenta.php">Configuración</a>
+                    <a href="../Scripts/CerrarSesion.php">Cerrar sesión</a>
                 </div>
             </div>
         </nav>
     </header>
+    <main>
                 <div class=" justify-center items-center m-6 bg-white px-4 rounded-lg shadow-md">
     <h2 class="text-2xl font-bold mb-6 mt-2 text-center">Equipos Disponibles</h2>
 
@@ -212,5 +214,6 @@ $conn->close();
         <p class="text-gray-700 text-center">No se encontraron equipos.</p>
     <?php endif; ?>
 </div>
+</main>
 </body>
 </html>
