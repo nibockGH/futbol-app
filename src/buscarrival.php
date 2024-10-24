@@ -37,58 +37,180 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// Obtener todas las publicaciones
-$sql = "SELECT posts.*, users.name FROM posts JOIN users ON posts.user_id = users.id ORDER BY created_at DESC";
-$result = $conn->query($sql);
+// Obtener todos los equipos de la base de datos para mostrarlos (si es necesario)
+$sql_equipos = "SELECT nombre, numero_participante, tipo_cancha FROM equipos";
+$result_equipos = $conn->query($sql_equipos);
 
 $conn->close();
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buscar Rival y Crear Equipos</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Crear Equipo y Buscar Rivales</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+    /* Tu código de estilos */
+    body {
+            background-color: #989da6; /* color zinc-300 de Tailwind */
+        }
+        header {
+            background-color: #000000; /* color negro */
+        }
+        .bg-black {
+            background-color: #000000; /* color negro */
+        }
+        .text-primary-foreground {
+            color: #FFFFFF; /* texto blanco */
+        }
+        #boton {
+            overflow: hidden; /* Evita que el texto agrandado se desborde del botón */
+            transition: background-color 0.3s ease;
+        }
+        #boton:hover {
+            background-color: #121111;
+        }
+        /* Estilos para el menú desplegable */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #a1a1a1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            opacity: 0;
+            transform: scale(0.95); /* Escalado inicial */
+            transition: transform 0.3s ease, opacity 0.3s ease; /* Transiciones */
+        }
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px;
+            transition: transform 0.3s ease; /* Transición para agrandar texto */
+        }
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+            transform: scale(1.05); /* Agranda el texto al pasar el cursor */
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+            transform: scale(1); /* Vuelve al tamaño original */
+        }
+        .dropdown:hover .dropbtn {
+            background-color: #121111;
+            text-decoration: underline;
+        }
+        /* Estilos para la sección de contacto */
+        .contact-section {
+            margin-top: 100px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .contact-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .contact-form button {
+            background-color: #000000;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .contact-form button:hover {
+            background-color: #333;
+        }
+</style>
 </head>
-<header class="bg-gray-50 w-full text-center">
-    <h1 class="text-2xl font-bold bg-gray-50 mb-4">PartidoYa</h1>
-</header>
-<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center">
-    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-2xl">
-        <h2 class="text-3xl font-bold mb-6 text-center">Buscar Rival y Crear Equipos</h2>
-
-        <?php if (isset($message)): ?>
-            <p class="text-green-500 mb-4"><?php echo $message; ?></p>
-        <?php endif; ?>
-
-        <form action="buscarrival.php" method="POST" class="mb-6">
-            <div class="mb-4">
-                <label for="title" class="block text-gray-700 font-semibold mb-2">Título</label>
-                <input type="text" name="title" id="title" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" required>
+<body class="flex bg-zinc-300 flex-col min-h-screen">
+<header class="bg-black text-primary-foreground px-4 lg:px-6 h-14 flex items-center">
+        <a class="flex items-center justify-center" href="main.php">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="text-white size-6"
+            >
+                <path d="m8 3 4 8 5-5 5 15H2L8 3z"></path>
+            </svg>
+            <span class="sr-only">Encontrar Partido</span>
+        </a>
+        <nav class="ml-auto pr-10 mr-10 flex gap-4 sm:gap-6">
+            <div class="space-x-3.5">
+            <a href="main.php" class="text-sm text-white font-medium hover:underline underline-offset-4">Inicio</a>
+            <a href="#" class="text-sm text-white font-medium hover:underline underline-offset-4">Partidos</a>
+            <a href="crearequipo.php" class="text-sm text-white font-medium hover:underline underline-offset-4">Equipos</a>
             </div>
-            <div class="mb-4">
-                <label for="description" class="block text-gray-700 font-semibold mb-2">Descripción</label>
-                <textarea name="description" id="description" rows="4" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" required></textarea>
+            <!-- Dropdown "Mi cuenta" -->
+            <div class="dropdown">
+                <a href="#" class="text-sm text-white font-medium hover:underline underline-offset-4 dropbtn">Mi cuenta</a>
+                <div class="dropdown-content">
+                    <a href="#">Configuración</a>
+                    <a href="logout.php">Cerrar sesión</a>
+                </div>
             </div>
-            <button type="submit" class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500">Crear Publicación</button>
-        </form>
+        </nav>
+    </header>
+                <div class=" justify-center items-center m-6 bg-white px-4 rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold mb-6 mt-2 text-center">Equipos Disponibles</h2>
 
-        <h3 class="text-2xl font-bold mb-4">Publicaciones Recientes</h3>
-        <div class="space-y-4">
-            <?php if ($result->num_rows > 0): ?>
-                <?php while ($row = $result->fetch_assoc()): ?>
-                    <div class="p-4 bg-gray-50 rounded-lg shadow">
-                        <h4 class="text-xl font-bold"><?php echo htmlspecialchars($row['title']); ?></h4>
-                        <p class="text-gray-700"><?php echo htmlspecialchars($row['description']); ?></p>
-                        <p class="text-sm text-gray-500 mt-2">Publicado por <?php echo htmlspecialchars($row['name']); ?> el <?php echo htmlspecialchars($row['created_at']); ?></p>
-                    </div>
-                <?php endwhile; ?>
-            <?php else: ?>
-                <p class="text-gray-600">No hay publicaciones aún.</p>
-            <?php endif; ?>
-        </div>
-    </div>
+    <?php if ($result_equipos->num_rows > 0): ?>
+        <table class="min-w-full bg-white mb-6">
+    <thead>
+        <tr>
+            <th class="py-2 bg-gray-200 font-bold uppercase text-gray-700 text-sm text-left">Participantes</th>
+            <th class="py-2 bg-gray-200 font-bold uppercase text-gray-700 text-sm text-left">Nombre del Equipo</th>
+            <th class="py-2 bg-gray-200 font-bold uppercase text-gray-700 text-sm text-left">Tipo de Cancha</th>
+            <th class="py-2 bg-gray-200 font-bold uppercase text-gray-700 text-sm text-center">Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php while($row = $result_equipos->fetch_assoc()): ?>
+            <tr>
+                <td class="py-2 pl-6 border-b border-gray-200"><?php echo $row['nombre']; ?></td>
+                <td class="py-2 pl-6 border-b border-gray-200"><?php echo $row['numero_participante']; ?></td>
+                <td class="py-2 pl-6 border-b border-gray-200"><?php echo $row['tipo_cancha']; ?></td>
+                <td class="py-2 border-b border-gray-200 text-center">
+                    <button class="py-2 px-4 bg-green-400 text-white font-bold uppercase text-sm">DESAFIAR</button>
+                </td>
+            </tr>
+        <?php endwhile; ?>
+    </tbody>
+</table>
+
+    <?php else: ?>
+        <p class="text-gray-700 text-center">No se encontraron equipos.</p>
+    <?php endif; ?>
+</div>
 </body>
 </html>

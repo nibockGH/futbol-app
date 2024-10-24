@@ -1,7 +1,18 @@
 <?php
+// Iniciar la sesión
+session_start();
+
+// Verificar si el usuario ha iniciado sesión y tiene un ID en la sesión
+if (isset($_SESSION['user_id'])) {
+    $usuario_id = $_SESSION['user_id']; // Obtener el ID del usuario desde la sesión
+} else {
+    // Si no hay usuario en la sesión, redirigir a la página de inicio de sesión
+    header("Location: login.php");
+    exit();
+}
+
 // Datos de conexión a la base de datos
 $servername = "localhost";
-
 $username = "root";
 $password = "";
 $dbname = "users_db";
@@ -13,6 +24,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
+
 $mensaje = ""; // Variable para almacenar el mensaje
 
 // Verificar si se ha enviado el formulario
@@ -22,26 +34,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $participantes = $_POST['participantes'];
     $cancha = $_POST['cancha'];
 
-    // Verificar si el equipo ya existe
-    $sql_verificar = "SELECT id FROM equipos WHERE nombre = '$nombre'";
+    // Verificar si el usuario ya tiene un equipo
+    $sql_verificar = "SELECT id FROM equipos WHERE usuario_id = '$usuario_id'";
     $resultado = $conn->query($sql_verificar);
 
     if ($resultado->num_rows > 0) {
-        // Si el equipo ya existe
-        $mensaje = "Equipo ya existente";
+        // Si el usuario ya tiene un equipo
+        $mensaje = "Ya has creado un equipo. No puedes crear más de uno.";
     } else {
-        // Si el equipo no existe, insertarlo en la base de datos
-        $sql = "INSERT INTO equipos (nombre, numero_participante, tipo_cancha) VALUES ('$nombre', $participantes, '$cancha')";
-        header("Location: micuenta.php");
+        // Si el usuario no tiene equipo, insertarlo en la base de datos
+        $sql = "INSERT INTO equipos (nombre, numero_participante, tipo_cancha, usuario_id) 
+                VALUES ('$nombre', $participantes, '$cancha', '$usuario_id')";
         
         if ($conn->query($sql) === TRUE) {
-            $mensaje = "Equipo guardado exitosamente";
+            $mensaje = "Equipo guardado exitosamente.";
+            header("Location: micuenta.php"); // Redirigir después de guardar
+            exit(); // Detener la ejecución después de la redirección
         } else {
             $mensaje = "Error: " . $sql . "<br>" . $conn->error;
         }
     }
 }
-// Obtener todos los equipos de la base de datos para mostrarlos
+
+// Obtener todos los equipos de la base de datos para mostrarlos (si es necesario)
 $sql_equipos = "SELECT nombre, numero_participante, tipo_cancha FROM equipos";
 $result_equipos = $conn->query($sql_equipos);
 
@@ -56,6 +71,7 @@ $conn->close();
     <title>Crear Equipo y Buscar Rivales</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+    /* Tu código de estilos */
     body {
             background-color: #989da6; /* color zinc-300 de Tailwind */
         }
@@ -151,7 +167,7 @@ $conn->close();
 </head>
 <body class="flex bg-zinc-300 flex-col min-h-screen">
 <header class="bg-black text-primary-foreground px-4 lg:px-6 h-14 flex items-center">
-        <a class="flex items-center justify-center" href="#">
+        <a class="flex items-center justify-center" href="main.php">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -173,7 +189,6 @@ $conn->close();
             <a href="main.php" class="text-sm text-white font-medium hover:underline underline-offset-4">Inicio</a>
             <a href="#" class="text-sm text-white font-medium hover:underline underline-offset-4">Partidos</a>
             <a href="crearequipo.php" class="text-sm text-white font-medium hover:underline underline-offset-4">Equipos</a>
-            <a href="#" class="text-sm text-white font-medium hover:underline underline-offset-4">Contacto</a>
             </div>
             <!-- Dropdown "Mi cuenta" -->
             <div class="dropdown">
@@ -192,7 +207,7 @@ $conn->close();
 
             <!-- Mostrar el mensaje si existe -->
             <?php if (!empty($mensaje)): ?>
-                <div class="<?php echo ($mensaje == 'Equipo guardado exitosamente') ? 'bg-green-100 border border-green-400 text-green-700' : 'bg-red-100 border border-red-400 text-red-700'; ?> px-4 py-3 rounded mb-4">
+                <div class="<?php echo ($mensaje == 'Equipo guardado exitosamente.') ? 'bg-green-100 border border-green-400 text-green-700' : 'bg-red-100 border border-red-400 text-red-700'; ?> px-4 py-3 rounded mb-4">
                     <?php echo $mensaje; ?>
                 </div>
             <?php endif; ?>
@@ -204,51 +219,49 @@ $conn->close();
                 </div>
                 <div class="mb-4">
                     <label for="participantes" class="block text-gray-700 font-bold mb-2">Número de Participantes:</label>
-                    <input type="number" id="participantes" name="participantes" class="border border-gray-300 rounded-lg w-full p-2" max="22" required>
+                    <input type="number" id="participantes" name="participantes" max="22" class="border border-gray-300 rounded-lg w-full p-2" required>
                 </div>
-                <div class="mb-4">
+                <div class="mb-6">
                     <label for="cancha" class="block text-gray-700 font-bold mb-2">Tipo de Cancha:</label>
                     <select id="cancha" name="cancha" class="border border-gray-300 rounded-lg w-full p-2" required>
-                        <option value="Fútbol 5">Fútbol 5</option>
-                        <option value="Fútbol 7">Fútbol 7</option>
-                        <option value="Fútbol 8">Fútbol 8</option>
-                        <option value="Fútbol 8">Fútbol 11</option>
-
+                        <option value=5>Fútbol 5</option>
+                        <option value=7>Fútbol 7</option>
+                        <option value=11>Fútbol 11</option>
                     </select>
                 </div>
-                <button type="submit" class="bg-green-500 text-white font-bold py-2 px-4 rounded-lg w-full">
-                    <a href="micuenta.php">Guardar Equipo</a></button>
+                <button type="submit" class="bg-black text-white w-full py-2 rounded-lg hover:bg-gray-800">Guardar Equipo</button>
             </form>
         </div>
 
-        <!-- Sección Buscar Rivales -->
+                <!-- Sección Buscar Rivales -->
 
-        <!-- <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
-            <h2 class="text-2xl font-bold mb-6 text-center">Buscar Rivales</h2>
+                <div class="w-full max-w-lg bg-white p-8 rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold mb-6 text-center">Buscar Rivales</h2>
 
-            <?php if ($result_equipos->num_rows > 0): ?>
-                <table class="min-w-full bg-white mb-6">
-                    <thead>
-                        <tr>
-                            <th class="py-2 px-4 bg-gray-200 font-bold uppercase text-gray-700 text-sm">Nombre del Equipo</th>
-                            <th class="py-2 px-4 bg-gray-200 font-bold uppercase text-gray-700 text-sm">Participantes</th>
-                            <th class="py-2 px-4 bg-gray-200 font-bold uppercase text-gray-700 text-sm">Tipo de Cancha</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php while($row = $result_equipos->fetch_assoc()): ?>
-                            <tr>
-                                <td class="py-2 px-4 border-b border-gray-200"><?php echo $row['nombre']; ?></td>
-                                <td class="py-2 px-4 border-b border-gray-200"><?php echo $row['numero_participante']; ?></td>
-                                <td class="py-2 px-4 border-b border-gray-200"><?php echo $row['tipo_cancha']; ?></td>
-                            </tr>
-                        <?php endwhile; ?>
-                    </tbody>
-                </table>
-            <?php else: ?>
-                <p class="text-gray-700 text-center">No se encontraron equipos.</p>
-            <?php endif; ?>
-        </div>
-    </div> -->
+    <?php if ($result_equipos->num_rows > 0): ?>
+        <table class="min-w-full bg-white mb-6">
+            <thead>
+                <tr>
+                    <th class="py-2 px-4 bg-gray-200 font-bold uppercase text-gray-700 text-sm">Nombre del Equipo</th>
+                    <th class="py-2 px-4 bg-gray-200 font-bold uppercase text-gray-700 text-sm">Participantes</th>
+                    <th class="py-2 px-4 bg-gray-200 font-bold uppercase text-gray-700 text-sm">Tipo de Cancha</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while($row = $result_equipos->fetch_assoc()): ?>
+                    <tr>
+                        <td class="py-2 px-4 border-b border-gray-200"><?php echo $row['nombre']; ?></td>
+                        <td class="py-2 px-4 border-b border-gray-200"><?php echo $row['numero_participante']; ?></td>
+                        <td class="py-2 px-4 border-b border-gray-200"><?php echo $row['tipo_cancha']; ?></td>
+                        <td class="py-2 px-4 border-b border-gray-200 text-center">
+                        </td>
+                    </tr>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p class="text-gray-700 text-center">No se encontraron equipos.</p>
+    <?php endif; ?>
+</div>
 </body>
 </html>

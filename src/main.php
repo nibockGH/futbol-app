@@ -126,7 +126,7 @@ $error = "";
 </head>
 <body class="flex bg-zinc-300 flex-col min-h-screen">
     <header class="bg-black text-primary-foreground px-4 lg:px-6 h-14 flex items-center">
-        <a class="flex items-center justify-center" href="#">
+        <a class="flex items-center justify-center" href="main.php">
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -148,7 +148,6 @@ $error = "";
             <a href="main.php" class="text-sm text-white font-medium hover:underline underline-offset-4">Inicio</a>
             <a href="#" class="text-sm text-white font-medium hover:underline underline-offset-4">Partidos</a>
             <a href="crearequipo.php" class="text-sm text-white font-medium hover:underline underline-offset-4">Equipos</a>
-            <a href="#" class="text-sm text-white font-medium hover:underline underline-offset-4">Contacto</a>
             </div>  
             <!-- Dropdown "Mi cuenta" -->
             <div class="dropdown">
@@ -172,14 +171,28 @@ $error = "";
                         </h1>
                         <div class="mt-6">
                             <a
+                                href="buscarrival.php"
+                                id="boton"
+                                class="inline-flex h-16 w-56 mt-8 items-center justify-center rounded-lg bg-black text-white px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50">
+                                Encontrar!
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <h2 class="lg:leading-tighter text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem] mb-9">Administra tu equipo</h2>
+                    <p class="text-lg font-medium text-primary">
+                        Administra todos los datos del equipo.
+                    </p>
+                    <div class="mt-6">
+                            <a
                                 href="crearequipo.php"
                                 id="boton"
                                 class="inline-flex h-16 w-56 mt-8 items-center justify-center rounded-lg bg-black text-white px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                             >
-                                Entrar!
+                                Configuracion
                             </a>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>

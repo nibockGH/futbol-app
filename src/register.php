@@ -58,7 +58,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             } catch (Exception $e) {
                 $error = "No se pudo enviar el correo de confirmación. Mailer Error: {$mail->ErrorInfo}";
             }
-
             // Redirigir al usuario a la página de inicio de sesión
             header("Location: login.php");
             exit();
