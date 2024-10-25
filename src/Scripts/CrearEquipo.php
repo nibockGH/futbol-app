@@ -5,7 +5,7 @@ session_start();
 // Verificar si el usuario ha iniciado sesión y tiene un ID en la sesión
 if (!isset($_SESSION['user_id'])) {
     // Si no hay usuario en la sesión, redirigir a la página de inicio de sesión
-    header("Location: login.php");
+    header("Location: ../Account/login.php");
     exit();
 }
 

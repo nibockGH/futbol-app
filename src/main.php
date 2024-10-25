@@ -129,21 +129,8 @@ $error = "";
 <body class="flex bg-zinc-300 flex-col min-h-screen">
     <header class="bg-black text-primary-foreground px-4 lg:px-6 h-14 flex items-center">
         <a class="flex items-center justify-center" href="main.php">
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="text-white size-6"
-            >
-                <path d="m8 3 4 8 5-5 5 15H2L8 3z"></path>
-            </svg>
-            <span class="sr-only">Encontrar Partido</span>
+            <img src="Images/logoPartidoYa (1).png" alt="Logo Partido Ya" class="h-8 w-auto">
+                <span class="sr-only">Encontrar Partido</span>
         </a>
         <nav class="ml-auto pr-10 mr-10 flex gap-4 sm:gap-6">
             <div class="space-x-3.5">

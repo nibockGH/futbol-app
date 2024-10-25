@@ -30,16 +30,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
-            // Obtener el hash de la contraseña almacenada
+            // Obtener la información del usuario
             $row = $result->fetch_assoc();
             $hash = $row['password'];
             
             // Verificar la contraseña
             if (password_verify($password, $hash)) {
+                // Guardar información del usuario en la sesión
                 $_SESSION['user_id'] = $row['id'];
                 $_SESSION['user_name'] = $row['name'];
-                // Redireccionar al usuario a la página de buscar rivales
-                header("Location: ../main.php");
+                $_SESSION['role'] = $row['role']; // Aquí guardas el rol del usuario
+                
+                // Verificar si es administrador
+                if ($row['role'] == 'admin') {
+                    // Redirigir al panel de administración
+                    header("Location: ../Admin/adminIndex.php");
+                } else {
+                    // Redirigir a la página de usuarios normales
+                    header("Location: ../main.php");
+                }
                 exit();
             } else {
                 echo "Contraseña incorrecta";
