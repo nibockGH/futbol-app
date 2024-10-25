@@ -158,7 +158,7 @@ $result = $conn->query($sql);
         </ul>
 
         <!-- Botón para agregar un nuevo usuario -->
-        <a href="agregar_usuario.php" class="btn btn-success mt-3">Agregar Usuario</a>
+        <a href="ModificacionUsuarios/AgregarUsuario.php" class="btn btn-success mt-3">Agregar Usuario</a>
 
         <!-- Botón para volver al inicio -->
         <button onclick="location.href='adminIndex.php'" class="btn btn-secondary mt-3">Volver al Inicio</button>
