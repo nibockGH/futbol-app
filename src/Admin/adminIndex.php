@@ -6,10 +6,6 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 'admin') {
     header("Location: ../Account/register.php");
     exit();
 }
-
-// Aquí va el contenido exclusivo para administradores
-echo "Bienvenido al panel de administración, " . $_SESSION['username'];
-
 ?>
 
 <!DOCTYPE html>
@@ -101,7 +97,7 @@ echo "Bienvenido al panel de administración, " . $_SESSION['username'];
                     <a href="partidos.php" class="block p-2 bg-gray-700 rounded hover:bg-gray-600">Partidos</a>
                 </li>
                 <li>
-                    <a href="equipos.php" class="block p-2 bg-gray-700 rounded hover:bg-gray-600">Equipos</a>
+                    <a href="equiposAdmin.php" class="block p-2 bg-gray-700 rounded hover:bg-gray-600">Equipos</a>
                 </li>
             </ul>
         </aside>

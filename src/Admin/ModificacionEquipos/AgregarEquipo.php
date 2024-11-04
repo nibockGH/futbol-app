@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agregar Alumno</title>
+    <title>Agregar Equipo</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
@@ -44,12 +44,12 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="mt-5">Gestión de Usuarios</h1>
+        <h1 class="mt-5">Gestión de Equipos</h1>
     
-        <h3>Agregar Usuario</h3>
-        <form id="usuarioForm" action="FuncionAddUsuario.php" method="POST">
+        <h3>Agregar Equipo</h3>
+        <form id="EquipoForm" action="FuncionAddEquipo.php" method="POST">
     <div class="form-group">
-        <label for="nombre">Nombre</label>
+        <label for="nombre">Nombre Del equipo</label>
         <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre del Usuario" required>
     </div>
     <div class="form-group">
@@ -60,7 +60,7 @@
         <label for="password">Password</label>
         <input type="input<" id="password" name="password" class="form-control" placeholder="Password del usuario" required>
     </div>
-    <button type="submit" class="btn btn-primary">Agregar Usuario</button>
+    <button type="submit" class="btn btn-primary">Agregar Equipo</button>
 </form>
 
 

@@ -18,12 +18,12 @@ if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
     // Consulta para eliminar el usuario
-    $sql = "DELETE FROM users WHERE id = $id";
+    $sql = "DELETE FROM equipos WHERE id = $id";
 
     if ($conn->query($sql) === TRUE) {
         echo "Usuario eliminado correctamente";
     } else {
-        echo "Error al eliminar el usuario: " . $conn->error;
+        echo "Error al eliminar el equipo: " . $conn->error;
     }
 
     $conn->close();
