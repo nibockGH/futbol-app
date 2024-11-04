@@ -28,6 +28,6 @@ if (isset($_GET['id'])) {
 
     $conn->close();
 
-    header("Location: ../usuariosAdmin.php");
+    header("Location: ../equiposAdmin.php");
 }
 ?>

@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 // Obtener todos los equipos de la base de datos para mostrarlos (si es necesario)
-$sql_equipos = "SELECT nombre, numero_participante, tipo_cancha FROM equipos";
+$sql_equipos = "SELECT nombre, numero_participante, tipo_cancha, puntos FROM equipos";
 $result_equipos = $conn->query($sql_equipos);
 
 $conn->close();
@@ -193,6 +193,7 @@ $conn->close();
             <th class="py-2 bg-gray-200 font-bold uppercase text-gray-700 text-sm text-left">Participantes</th>
             <th class="py-2 bg-gray-200 font-bold uppercase text-gray-700 text-sm text-left">Nombre del Equipo</th>
             <th class="py-2 bg-gray-200 font-bold uppercase text-gray-700 text-sm text-left">Tipo de Cancha</th>
+            <th class="py-2 bg-gray-200 font-bold uppercase text-gray-700 text-sm text-left">Puntos</th>
             <th class="py-2 bg-gray-200 font-bold uppercase text-gray-700 text-sm text-center">Acción</th>
         </tr>
     </thead>
@@ -202,6 +203,7 @@ $conn->close();
                 <td class="py-2 pl-6 border-b border-gray-200"><?php echo $row['nombre']; ?></td>
                 <td class="py-2 pl-6 border-b border-gray-200"><?php echo $row['numero_participante']; ?></td>
                 <td class="py-2 pl-6 border-b border-gray-200"><?php echo $row['tipo_cancha']; ?></td>
+                <td class="py-2 pl-6 border-b border-gray-200"><?php echo $row['puntos']; ?></td>
                 <td class="py-2 border-b border-gray-200 text-center">
                     <button class="py-2 px-4 bg-green-400 text-white font-bold uppercase text-sm">DESAFIAR</button>
                 </td>

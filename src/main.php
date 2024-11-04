@@ -128,9 +128,22 @@ $error = "";
 </head>
 <body class="flex bg-zinc-300 flex-col min-h-screen">
     <header class="bg-black text-primary-foreground px-4 lg:px-6 h-14 flex items-center">
-        <a class="flex items-center justify-center" href="main.php">
-            <img src="Images/logoPartidoYa (1).png" alt="Logo Partido Ya" class="h-8 w-auto">
-                <span class="sr-only">Encontrar Partido</span>
+        <a class="flex items-center justify-center" href="../main.php">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="text-white size-6"
+            >
+                <path d="m8 3 4 8 5-5 5 15H2L8 3z"></path>
+            </svg>
+            <span class="sr-only">Encontrar Partido</span>
         </a>
         <nav class="ml-auto pr-10 mr-10 flex gap-4 sm:gap-6">
             <div class="space-x-3.5">
@@ -171,7 +184,7 @@ $error = "";
                 </div>
 
                 <div class="text-center">
-                    <h2 class="lg:leading-tighter text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem] mb-9">Administra tu equipo</h2>
+                    <h2 class="lg:leading-tighter text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl xl:text-[3.4rem] 2xl:text-[3.75rem] mb-9">Crea tu equipo!</h2>
                     <p class="text-lg font-medium text-primary">
                         Administra todos los datos del equipo.
                     </p>
@@ -181,7 +194,7 @@ $error = "";
                                 id="boton"
                                 class="inline-flex h-16 w-56 mt-8 items-center justify-center rounded-lg bg-black text-white px-4 py-2 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
                             >
-                                Configuracion
+                                Crea!
                             </a>
                 </div>
             </div>

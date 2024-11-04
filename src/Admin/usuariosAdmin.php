@@ -146,7 +146,7 @@ $result = $conn->query($sql);
                     echo '<li class="list-group-item d-flex justify-content-between align-items-center">';
                     echo '<span><strong>' . $row['name'] . '</strong> (' . $row['email'] . ')</span>';
                     echo '<div>';
-                    echo '<a href="editar_usuario.php?id=' . $row['id'] . '" class="btn btn-primary btn-sm">Editar</a> ';
+                    echo '<a href="ModificacionEquipos/modificarUsuario.php?id=' . $row['id'] . '" class="btn btn-primary btn-sm">Editar</a> ';
                     echo '<a href="ModificacionUsuarios/eliminarUsuario.php?id=' . $row['id'] . '" class="btn btn-danger btn-sm">Eliminar</a>';
                     echo '</div>';
                     echo '</li>';

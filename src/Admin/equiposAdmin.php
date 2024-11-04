@@ -148,17 +148,17 @@ $result = $conn->query($sql);
             echo '<span><strong>' . $row['nombre'] . '</strong> (Id del creador: ' . $row['usuario_id'] . ') (Total de pts: ' . $row['puntos'] . ')</span>';
             
             echo '<div>';
-            echo '<a href="editar_usuario.php?id=' . $row['id'] . '" class="btn btn-primary btn-sm">Editar</a> ';
-            echo '<a href="ModificacionUsuarios/eliminarUsuario.php?id=' . $row['id'] . '" class="btn btn-danger btn-sm">Eliminar</a>';
+            echo '<a href="#.php?id=' . $row['id'] . '" class="btn btn-primary btn-sm">Editar</a> ';
+            echo '<a href="ModificacionEquipos/eliminarEquipo.php?id=' . $row['id'] . '" class="btn btn-danger btn-sm">Eliminar</a>';
             
             // Botones para sumar puntos
-            echo '<form method="post" action="sumar_puntos.php" style="display:inline-block; margin-left: 5px;">';
+            echo '<form method="post" action="../Scripts/sumarPuntos.php" style="display:inline-block; margin-left: 5px;">';
             echo '<input type="hidden" name="equipo_id" value="' . $row['id'] . '">';
             echo '<input type="hidden" name="puntos" value="3">';
             echo '<button type="submit" class="btn btn-success btn-sm">+3</button>';
             echo '</form>';
             
-            echo '<form method="post" action="sumar_puntos.php" style="display:inline-block; margin-left: 5px;">';
+            echo '<form method="post" action="../Scripts/sumarPuntos.php" style="display:inline-block; margin-left: 5px;">';
             echo '<input type="hidden" name="equipo_id" value="' . $row['id'] . '">';
             echo '<input type="hidden" name="puntos" value="1">';
             echo '<button type="submit" class="btn btn-warning btn-sm">+1</button>';
@@ -176,7 +176,7 @@ $result = $conn->query($sql);
 
 
         <!-- Botón para agregar un nuevo usuario -->
-        <a href="ModificacionUsuarios/AgregarUsuario.php" class="btn btn-success mt-3">Agregar Equipo</a>
+        <a href="ModificacionEquipos/AgregarEquipo.php" class="btn btn-success mt-3">Agregar Equipo</a>
 
         <!-- Botón para volver al inicio -->
         <button onclick="location.href='adminIndex.php'" class="btn btn-secondary mt-3">Volver al Inicio</button>

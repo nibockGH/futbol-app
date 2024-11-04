@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agregar Equipo</title>
+    <title>Modificar Usuario</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
@@ -21,7 +21,7 @@
             text-align: center;
             margin-bottom: 30px;
         }
-        #alumnoForm {
+        #usuarioForm {
             max-width: 500px;
             margin: 0 auto;
             background-color: #ffffff;
@@ -38,35 +38,31 @@
             background-color: #0056b3;
         }
         .btn-secondary {
-            margin-top: 20px; /* Espacio adicional para el botón de volver */
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="mt-5">Gestión de Equipos</h1>
+        <h1 class="mt-5">Gestión de Usuarios</h1>
     
-        <h3>Agregar Equipo</h3>
-        <form id="EquipoForm" action="FuncionAddEquipo.php" method="POST">
-    <div class="form-group">
-        <label for="nombre">Nombre Del equipo</label>
-        <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre del Usuario" required>
-    </div>
-    <div class="mb-4">
-                    <label for="participantes" class="block text-gray-700 font-bold mb-2">Número de Participantes:</label>
-                    <input type="number" id="cantidad_jugadores" name="cantidad_jugadores" max="22" class="form-control" required>
-                </div>
-    <div class="mb-6">
-                    <label for="cancha" class="block text-gray-700 font-bold mb">Tipo de Cancha:</label>
-                    <select id="tipo_cancha" name="tipo_cancha" class="form-control" required>
-                        <option value=5>Fútbol 5</option>
-                        <option value=7>Fútbol 7</option>
-                        <option value=11>Fútbol 11</option>
-                    </select>
-                </div>
-    <button type="submit" class="btn btn-primary">Agregar Equipo</button>
-</form>
-
+        <h3>Modificar Usuario</h3>
+        <form id="usuarioForm" action="FuncionModificarUsuario.php" method="POST">
+            <input type="hidden" id="usuario_id" name="usuario_id" value="<?php echo $_GET['id']; ?>" required>
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Nombre del Usuario" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" class="form-control" placeholder="Email del Usuario" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Password del usuario">
+            </div>
+            <button type="submit" class="btn btn-primary">Modificar Usuario</button>
+        </form>
 
         <!-- Botón para volver al inicio -->
         <button onclick="location.href='../adminIndex.php'" class="btn btn-secondary">Volver al Inicio</button>
